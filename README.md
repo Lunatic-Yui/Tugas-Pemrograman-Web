@@ -9,4 +9,20 @@
 
 error 
 
--
+- Result 2:
+
+![image](./result/result-2.png)
+
+success migrate
+
+- Result 3:
+
+![image](./result/result-3.png)
+
+error handling
+
+- Result 4:
+
+![image](./result/result-4.png)
+
+success added `pentol` with price: `1000`
