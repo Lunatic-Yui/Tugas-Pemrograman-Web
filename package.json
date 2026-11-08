@@ -4,13 +4,26 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest"
+    "test": "jest --runInBand",
+    "postinstall": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "prisma db seed"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": ["./tests/setupEnv.js"],
+    "globalSetup": "./tests/globalSetup.js"
   },
   "dependencies": {
+    "@prisma/client": "^6.0.0",
     "express": "^4.19.2"
   },
   "devDependencies": {
     "jest": "^29.7.0",
+    "prisma": "^6.0.0",
     "supertest": "^7.0.0"
   }
 }
