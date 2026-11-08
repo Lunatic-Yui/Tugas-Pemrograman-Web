@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Produk</title>
+</head>
+<body>
+  <h1>Daftar Produk</h1>
+
+  <input type="text" id="name" placeholder="Nama produk">
+  <input type="number" id="price" placeholder="Harga">
+  <button id="btnTambah">Tambah</button>
+  <p id="pesan"></p>
+
+  <ul id="daftar"></ul>
+
+  <script>
+    const daftar = document.getElementById('daftar');
+    const pesan = document.getElementById('pesan');
+
+    async function tampilkanProduk() {
+      const res = await fetch('/products');
+      const data = await res.json();
+
+      daftar.innerHTML = '';
+      data.forEach((p) => {
+        const li = document.createElement('li');
+        li.textContent = p.id + '. ' + p.name + ' - Rp' + p.price;
+        daftar.appendChild(li);
+      });
+    }
+
+    document.getElementById('btnTambah').addEventListener('click', async () => {
+      const name = document.getElementById('name').value;
+      const price = Number(document.getElementById('price').value);
+
+      const res = await fetch('/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, price })
+      });
+
+      const data = await res.json();
+
+      if (res.status === 201) {
+        pesan.textContent = 'Berhasil menambah ' + data.name;
+        document.getElementById('name').value = '';
+        document.getElementById('price').value = '';
+        tampilkanProduk();
+      } else {
+        pesan.textContent = data.message;
+      }
+    });
+
+    tampilkanProduk();
+  </script>
+</body>
+</html>
