@@ -5,6 +5,10 @@
 
 - Frontend: https://youtu.be/Uz1pzJ30FaA?si=Pmj4f1kjh1YFumEA
 
+## Video Tugas 4:
+
+- Frontend: https://youtu.be/YN9hkOOBa7Q?si=VVyUINv0cq1ACSjj
+
 ## Some results:
 
 - Result 1:
