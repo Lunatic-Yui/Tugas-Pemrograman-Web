@@ -13,6 +13,10 @@ export default function ProductForm({ onSubmit }) {
       setError('Nama dan harga wajib diisi');
       return;
     }
+    if (Number(price) <= 0) {
+      setError('Harga harus lebih dari 0');
+      return;
+    }
     setSaving(true);
     try {
       await onSubmit({ name: name.trim(), price });
@@ -34,6 +38,7 @@ export default function ProductForm({ onSubmit }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="cth: Kopi Robusta"
+          autoComplete="off"
         />
       </div>
       <div className="field">
@@ -46,9 +51,10 @@ export default function ProductForm({ onSubmit }) {
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           placeholder="cth: 25000"
+          autoComplete="off"
         />
       </div>
-      <button className="primary" disabled={saving}>
+      <button className="btn primary" disabled={saving}>
         {saving ? 'Menyimpan...' : 'Tambah produk'}
       </button>
       {error && <div className="msg err">{error}</div>}

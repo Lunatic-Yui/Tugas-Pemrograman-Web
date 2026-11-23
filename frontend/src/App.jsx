@@ -6,7 +6,7 @@ import ProductList from './components/ProductList.jsx';
 export default function App() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState(null); // { type: 'ok' | 'err', text }
+  const [message, setMessage] = useState(null);
 
   const notify = useCallback((type, text) => {
     setMessage({ type, text });
@@ -30,13 +30,13 @@ export default function App() {
   async function handleCreate(data) {
     const product = await api.create(data);
     setProducts((prev) => [...prev, product].sort((a, b) => a.id - b.id));
-    notify('ok', `Berhasil menambah "${product.name}"`);
+    notify('ok', `Produk "${product.name}" berhasil ditambahkan`);
   }
 
   async function handleUpdate(id, data) {
     const product = await api.update(id, data);
     setProducts((prev) => prev.map((p) => (p.id === id ? product : p)));
-    notify('ok', `Produk "${product.name}" berhasil diubah`);
+    notify('ok', `Produk "${product.name}" berhasil diperbarui`);
   }
 
   async function handleDelete(id) {
@@ -51,23 +51,26 @@ export default function App() {
 
   return (
     <div className="container">
-      <h1>Products Manager</h1>
-      <p className="subtitle">
-        Tugas Pengaplikasian React untuk Development Frontend — mengonsumsi API
-        Express + Prisma di <code>/products</code>
-      </p>
+      <header className="hero">
+        <div className="badge">Product Manager</div>
+        <h1>Daftar Produk</h1>
+        <p className="subtitle">
+          Frontend React untuk Tugas Pemrograman Web, terhubung ke API{' '}
+          <code>/products</code> milik backend Express + Prisma
+        </p>
+      </header>
 
       {message && <div className={`msg ${message.type}`}>{message.text}</div>}
 
-      <div className="card">
-        <h2>Tambah produk</h2>
+      <section className="card">
+        <h2>Tambah Produk</h2>
         <ProductForm onSubmit={handleCreate} />
-      </div>
+      </section>
 
-      <div className="card">
-        <h2>Daftar produk</h2>
+      <section className="card">
+        <h2>Daftar Produk</h2>
         {loading ? (
-          <div className="loading">Memuat...</div>
+          <div className="loading">Memuat data</div>
         ) : (
           <ProductList
             products={products}
@@ -75,7 +78,11 @@ export default function App() {
             onDelete={handleDelete}
           />
         )}
-      </div>
+      </section>
+
+      <footer className="foot">
+        Dibuat dengan React + Vite, data dari SQLite lewat Prisma
+      </footer>
     </div>
   );
 }
