@@ -140,3 +140,29 @@ describe('DELETE /products/:id', () => {
     expect(res.statusCode).toBe(404);
   });
 });
+
+describe("validasi id", () => {
+  it("harus 400 kalau id bukan angka pada GET", async () => {
+    const res = await request(app).get("/products/abc");
+    expect(res.statusCode).toBe(400);
+    expect(res.body.message).toBe("id harus angka bulat positif");
+  });
+
+  it("harus 400 kalau id nol pada GET", async () => {
+    const res = await request(app).get("/products/0");
+    expect(res.statusCode).toBe(400);
+  });
+
+  it("harus 400 kalau id negatif pada DELETE", async () => {
+    const res = await request(app).delete("/products/-5");
+    expect(res.statusCode).toBe(400);
+  });
+});
+
+describe("GET / (frontend)", () => {
+  it("harus menampilkan halaman utama", async () => {
+    const res = await request(app).get("/");
+    expect(res.statusCode).toBe(200);
+    expect(res.headers["content-type"]).toMatch(/text\/html/);
+  });
+});
